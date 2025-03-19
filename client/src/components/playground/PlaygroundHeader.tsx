@@ -1,6 +1,6 @@
 import { Button } from "@/components/button/Button";
 import { LoadingSVG } from "@/components/button/LoadingSVG";
-// import { SettingsDropdown } from "@/components/playground/SettingsDropdown";
+import { SettingsDropdown } from "@/components/playground/SettingsDropdown";
 import { useConfig } from "@/hooks/useConfig";
 import { ConnectionState } from "livekit-client";
 import { ReactNode } from "react";
@@ -50,7 +50,7 @@ export const PlaygroundHeader = ({
             <GithubSVG />
           </a>
         )}
-        {/* {config.settings.editable && <SettingsDropdown />} */}
+        {config.settings.editable && <SettingsDropdown />}
         <Button
           accentColor={
             connectionState === ConnectionState.Connected ? "red" : accentColor
