@@ -4,6 +4,8 @@ import { SettingsDropdown } from "@/components/playground/SettingsDropdown";
 import { useConfig } from "@/hooks/useConfig";
 import { ConnectionState } from "livekit-client";
 import { ReactNode } from "react";
+import Link from 'next/link';
+
 
 type PlaygroundHeader = {
   logo?: ReactNode;
@@ -34,7 +36,11 @@ export const PlaygroundHeader = ({
     >
       <div className="flex items-center gap-3 basis-2/3">
         <div className="flex lg:basis-1/2">
-          <a href="/">{logo ?? <LKLogo />}</a>
+        <Link href="/">
+          {/* If logo is passed, render it, otherwise render the default LKLogo component */}
+          {logo ?? <LKLogo />}
+        </Link>
+
         </div>
         <div className="lg:basis-1/2 lg:text-center text-xs lg:text-base lg:font-semibold text-black">
           {title}

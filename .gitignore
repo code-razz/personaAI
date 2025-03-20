@@ -3,3 +3,4 @@
 **/client/.env
 **/client/.env.local
 **/client/.next/
+.vercel
