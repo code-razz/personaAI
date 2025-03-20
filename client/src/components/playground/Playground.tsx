@@ -517,6 +517,9 @@ export default function Playground({
               {audioTileContent}
             </PlaygroundTile>
           )}
+          <p>
+            {room?.localParticipant?.identity}
+          </p>
         </PlaygroundTile>
       </div>
     </>

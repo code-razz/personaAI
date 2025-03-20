@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 
 export default function Form() {
   const [showForm, setShowForm] = useState(false);
-  const [prebuilt, setPrebuilt] = useState(null);
+  const [selectedPersona, setSelectedPersona] = useState(null);
+  const [errors, setErrors] = useState({});
   const [persona, setPersona] = useState({
     persona_name: "",
     sex: "",
@@ -16,34 +17,54 @@ export default function Form() {
 
   const router = useRouter();
 
+  // Define pre-built personas as an array of objects
+  const prebuiltPersonas = [
+    {
+      type: "guardian",
+      persona_name: "The Guardian",
+      sex: "Male",
+      traits: "Brave, Kind",
+      tone: "Motivational",
+      purpose: "To protect and inspire",
+      response_type: "Detailed",
+      backstory: "A noble warrior trained to fight for justice.",
+    },
+    {
+      type: "strategist",
+      persona_name: "The Strategist",
+      sex: "Female",
+      traits: "Intelligent, Cunning",
+      tone: "Calm and Analytical",
+      purpose: "To solve complex problems",
+      response_type: "Concise",
+      backstory: "A former spy with unmatched strategic skills.",
+    },
+    
+  ];
+
   const handlePrebuiltSelection = (type) => {
-    if (type === "hero") {
-      setPersona({
-        persona_name: "The Guardian",
-        sex: "Male",
-        traits: "Brave, Kind",
-        tone: "Motivational",
-        purpose: "To protect and inspire",
-        response_type: "Detailed",
-        backstory: "A noble warrior trained to fight for justice.",
-      });
-    } else {
-      setPersona({
-        persona_name: "The Strategist",
-        sex: "Female",
-        traits: "Intelligent, Cunning",
-        tone: "Calm and Analytical",
-        purpose: "To solve complex problems",
-        response_type: "Concise",
-        backstory: "A former spy with unmatched strategic skills.",
-      });
+    const selected = prebuiltPersonas.find((p) => p.type === type);
+    if (selected) {
+      setPersona(selected);
+      setSelectedPersona(type);
+      setShowForm(false);
+      setErrors({});
     }
-    setPrebuilt(type);
-    setShowForm(false);
+  };
+
+  const validateForm = () => {
+    let newErrors = {};
+    Object.keys(persona).forEach((key) => {
+      if (!persona[key]) newErrors[key] = "This field is required.";
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async () => {
-    await fetch("http://localhost:5000/create-persona", {
+    if (showForm && !validateForm()) return;
+
+    await fetch("http://127.0.0.1:5000/api/update_persona", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(persona),
@@ -52,89 +73,88 @@ export default function Form() {
   };
 
   return (
-    <div className="min-h-screen bg-base p-6 flex flex-col items-center">
-      <h1 className="text-3xl font-bold mb-4">Create Your Persona</h1>
+    <div className="min-h-screen bg-[#F5E7DE] p-6 flex flex-col items-center">
+      <h1 className="text-3xl font-bold mb-6 text-black">Create Your Persona</h1>
+
       <div className="flex gap-4">
         <button
           onClick={() => {
             setShowForm(true);
-            setPrebuilt(null);
+            setSelectedPersona(null);
+            setPersona({
+              persona_name: "",
+              sex: "",
+              traits: "",
+              tone: "",
+              purpose: "",
+              response_type: "",
+              backstory: "",
+            });
+            setErrors({});
           }}
-          className="bg-accent px-4 py-2 rounded-xl font-semibold hover:bg-black hover:text-white transition-all"
+          className={`px-4 py-2 rounded-xl font-semibold transition-all ${
+            showForm ? "bg-black text-white" : "bg-[#F2BFA4] hover:bg-black hover:text-white"
+          }`}
         >
           Custom Persona
         </button>
         <button
           onClick={() => {
             setShowForm(false);
-            setPrebuilt(null);
+            setSelectedPersona(null);
           }}
-          className="bg-accent px-4 py-2 rounded-xl font-semibold hover:bg-black hover:text-white transition-all"
+          className={`px-4 py-2 rounded-xl font-semibold transition-all ${
+            !showForm && selectedPersona === null ? "bg-black text-white" : "bg-[#F2BFA4] hover:bg-black hover:text-white"
+          }`}
         >
           Pre-built Personas
         </button>
       </div>
 
-      {prebuilt === null && !showForm && (
+      {!showForm && (
         <div className="flex gap-6 mt-4">
-          <button
-            onClick={() => handlePrebuiltSelection("hero")}
-            className="w-40 h-40 bg-accent flex items-center justify-center text-lg font-semibold rounded-lg hover:bg-black hover:text-white"
-          >
-            The Guardian
-          </button>
-          <button
-            onClick={() => handlePrebuiltSelection("strategist")}
-            className="w-40 h-40 bg-accent flex items-center justify-center text-lg font-semibold rounded-lg hover:bg-black hover:text-white"
-          >
-            The Strategist
-          </button>
+          {prebuiltPersonas.map((p) => (
+            <button
+              key={p.type}
+              onClick={() => handlePrebuiltSelection(p.type)}
+              className={`w-40 h-40 flex items-center justify-center text-lg font-semibold rounded-lg transition-all ${
+                selectedPersona === p.type ? "bg-black text-white" : "bg-[#F2BFA4] hover:bg-black hover:text-white"
+              }`}
+            >
+              {p.persona_name}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {selectedPersona && (
+        <div className="mt-4 p-4 bg-white rounded-lg shadow-lg w-96">
+          <h2 className="text-xl font-semibold text-black mb-2">{persona.persona_name}</h2>
+          <p className="text-black"><strong>Sex:</strong> {persona.sex}</p>
+          <p className="text-black"><strong>Traits:</strong> {persona.traits}</p>
+          <p className="text-black"><strong>Tone:</strong> {persona.tone}</p>
+          <p className="text-black"><strong>Purpose:</strong> {persona.purpose}</p>
+          <p className="text-black"><strong>Response Type:</strong> {persona.response_type}</p>
+          <p className="text-black"><strong>Backstory:</strong> {persona.backstory}</p>
         </div>
       )}
 
       {showForm && (
         <div className="mt-6 bg-white p-6 rounded-lg shadow-lg w-96">
-          <input
-            className="w-full mb-2 p-2 border border-gray-300 rounded-md"
-            type="text"
-            placeholder="Persona Name"
-            onChange={(e) => setPersona({ ...persona, persona_name: e.target.value })}
-          />
-          <input
-            className="w-full mb-2 p-2 border border-gray-300 rounded-md"
-            type="text"
-            placeholder="Sex"
-            onChange={(e) => setPersona({ ...persona, sex: e.target.value })}
-          />
-          <input
-            className="w-full mb-2 p-2 border border-gray-300 rounded-md"
-            type="text"
-            placeholder="Traits"
-            onChange={(e) => setPersona({ ...persona, traits: e.target.value })}
-          />
-          <input
-            className="w-full mb-2 p-2 border border-gray-300 rounded-md"
-            type="text"
-            placeholder="Tone"
-            onChange={(e) => setPersona({ ...persona, tone: e.target.value })}
-          />
-          <input
-            className="w-full mb-2 p-2 border border-gray-300 rounded-md"
-            type="text"
-            placeholder="Purpose"
-            onChange={(e) => setPersona({ ...persona, purpose: e.target.value })}
-          />
-          <input
-            className="w-full mb-2 p-2 border border-gray-300 rounded-md"
-            type="text"
-            placeholder="Response Type"
-            onChange={(e) => setPersona({ ...persona, response_type: e.target.value })}
-          />
-          <textarea
-            className="w-full mb-4 p-2 border border-gray-300 rounded-md"
-            placeholder="Backstory"
-            onChange={(e) => setPersona({ ...persona, backstory: e.target.value })}
-          ></textarea>
+          {Object.keys(persona).map((key) => (
+            <div key={key} className="mb-2">
+              <input
+                className={`w-full p-2 border rounded-md ${
+                  errors[key] ? "border-red-500" : "border-gray-300"
+                }`}
+                type="text"
+                placeholder={key.replace("_", " ").toUpperCase()}
+                value={persona[key]}
+                onChange={(e) => setPersona({ ...persona, [key]: e.target.value })}
+              />
+              {errors[key] && <p className="text-red-500 text-sm">{errors[key]}</p>}
+            </div>
+          ))}
         </div>
       )}
 

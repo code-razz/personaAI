@@ -59,6 +59,8 @@ module.exports = {
       black: colors.black,
       white: colors.white,
       gray: colors.neutral,
+      base: "#F5E7DE",
+      accent: "#F2BFA4",
       ...customColors
     },
     extend: {
