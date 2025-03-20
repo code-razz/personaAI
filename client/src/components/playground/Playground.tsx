@@ -452,7 +452,7 @@ export default function Playground({
   return (
     <>
       <PlaygroundHeader
-        title={config.title}
+        title="Persona AI by Team MO:MO"
         logo={logo}
         githubLink={config.github_link}
         height={headerHeight}
@@ -489,15 +489,7 @@ export default function Playground({
               {videoTileContent}
             </PlaygroundTile>
           )} */}
-          {config.settings.outputs.audio && (
-            <PlaygroundTile
-              title="Audio"
-              className="w-full h-full grow"
-              childrenClassName="justify-center"
-            >
-              {audioTileContent}
-            </PlaygroundTile>
-          )}
+
         </div>
 
         {config.settings.chat && (
@@ -515,6 +507,15 @@ export default function Playground({
           childrenClassName="h-full grow items-start"
         >
           {settingsTileContent}
+          {config.settings.outputs.audio && (
+            <PlaygroundTile
+              title="Audio"
+              className="w-full h-fit grow"
+              childrenClassName="justify-center"
+            >
+              {audioTileContent}
+            </PlaygroundTile>
+          )}
         </PlaygroundTile>
       </div>
     </>

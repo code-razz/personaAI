@@ -78,13 +78,13 @@ export function HomeInner() {
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <meta
           property="og:image"
-          content="https://livekit.io/images/og/agents-playground.png"
+          // content="https://livekit.io/images/og/agents-playground.pn"
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="relative flex flex-col justify-center px-4 items-center h-full w-full bg-black repeating-square-background">
+      <main className="relative flex flex-col justify-center px-4 items-center h-full w-full bg-F5E7DE repeating-square-background">
         <AnimatePresence>
           {toastMessage && (
             <motion.div
