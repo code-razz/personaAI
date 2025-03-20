@@ -165,7 +165,7 @@ export default function Playground({
 
   const audioTileContent = useMemo(() => {
     const disconnectedContent = (
-      <div className="flex flex-col items-center justify-center gap-2 text-gray-700 text-center w-full">
+      <div className="flex flex-col items-center justify-center gap-2 text-black-700 text-center w-full">
         No audio track. Connect to get started.
       </div>
     );
@@ -238,7 +238,7 @@ export default function Playground({
       <div className="flex flex-col gap-4 h-full w-full items-start overflow-y-auto">
         {config.description && (
           <ConfigurationPanelItem title="Description">
-            {config.description}
+            This is PersonaAI assistant by team MO:Mo:. It is an advanced personality and background story based customizable voice assistant which can do conversation in real time.
           </ConfigurationPanelItem>
         )}
 
@@ -339,7 +339,7 @@ export default function Playground({
             />
           </div>
         </ConfigurationPanelItem>
-        {localVideoTrack && (
+        {/* {localVideoTrack && (
           <ConfigurationPanelItem
             title="Camera"
             deviceSelectorKind="videoinput"
@@ -351,7 +351,7 @@ export default function Playground({
               />
             </div>
           </ConfigurationPanelItem>
-        )}
+        )} */}
         {localMicTrack && (
           <ConfigurationPanelItem
             title="Microphone"
@@ -462,8 +462,9 @@ export default function Playground({
           onConnect(roomState === ConnectionState.Disconnected)
         }
       />
+
       <div
-        className={`flex gap-4 py-4 grow w-full selection:bg-${config.settings.theme_color}-900`}
+        className={`flex gap-4 py-4 grow selection:bg-${config.settings.theme_color}-900`}
         style={{ height: `calc(100% - ${headerHeight}px)` }}
       >
         <div className="flex flex-col grow basis-1/2 gap-4 h-full lg:hidden">
@@ -473,14 +474,14 @@ export default function Playground({
             initialTab={mobileTabs.length - 1}
           />
         </div>
-        <div
+        {/* <div
           className={`flex-col grow basis-1/2 gap-4 h-full hidden lg:${
             !config.settings.outputs.audio && !config.settings.outputs.video
               ? "hidden"
               : "flex"
           }`}
         >
-          {/* {config.settings.outputs.video && (
+          {config.settings.outputs.video && (
             <PlaygroundTile
               title="Video"
               className="w-full h-full grow"
@@ -488,21 +489,21 @@ export default function Playground({
             >
               {videoTileContent}
             </PlaygroundTile>
-          )} */}
+          )}
 
-        </div>
+        </div> */}
 
         {config.settings.chat && (
           <PlaygroundTile
             title="Chat"
-            className="h-full grow basis-1/4 hidden lg:flex"
+            className="h-full grow basis-1/4 hidden lg:flex w-full"
           >
             {chatTileContent}
           </PlaygroundTile>
         )}
         <PlaygroundTile
           padding={false}
-          backgroundColor="gray-950"
+          backgroundColor="red-200"
           className="h-full w-full basis-1/4 items-start overflow-y-auto hidden max-w-[480px] lg:flex"
           childrenClassName="h-full grow items-start"
         >

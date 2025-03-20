@@ -41,7 +41,7 @@ export type UserSettings = {
 // Fallback if NEXT_PUBLIC_APP_CONFIG is not set
 const defaultConfig: AppConfig = {
   title: "Persona AI",
-  description: "A playground for testing our Persona Agents",
+  description: "A playground for testing our PersonAI Agents",
   video_fit: "cover",
   settings: {
     editable: true,

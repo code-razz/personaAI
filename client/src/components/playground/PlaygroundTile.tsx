@@ -1,3 +1,4 @@
+import { color } from "framer-motion";
 import { ReactNode, useState } from "react";
 
 const titleHeight = 32;
@@ -32,11 +33,11 @@ export const PlaygroundTile: React.FC<PlaygroundTileProps> = ({
   const contentPadding = padding ? 4 : 0;
   return (
     <div
-      className={`flex flex-col border rounded-sm border-gray-800 text-gray-500 bg-${backgroundColor} ${className}`}
+      className={`m-1 p-2 flex flex-col border rounded-sm border-gray-800 text-black bg-${backgroundColor} ${className}`}
     >
       {title && (
         <div
-          className="flex items-center justify-center text-xs uppercase py-2 border-b border-b-gray-800 tracking-wider"
+          className="font-bold flex items-center justify-center text-xs uppercase py-2 border-b border-b-gray-800 tracking-wider"
           style={{
             height: `${titleHeight}px`,
           }}
@@ -45,13 +46,13 @@ export const PlaygroundTile: React.FC<PlaygroundTileProps> = ({
         </div>
       )}
       <div
-        className={`flex flex-col items-center grow w-full ${childrenClassName}`}
+        className={`flex flex-col items-center grow w-full font-bold !text-black ${childrenClassName}`}
         style={{
           height: `calc(100% - ${title ? titleHeight + "px" : "0px"})`,
           padding: `${contentPadding * 4}px`,
         }}
       >
-        {children}
+      {children}
       </div>
     </div>
   );
