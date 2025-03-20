@@ -2,7 +2,7 @@
 
 import { LoadingSVG } from "@/components/button/LoadingSVG";
 import { ChatMessageType } from "@/components/chat/ChatTile";
-import { ColorPicker } from "@/components/colorPicker/ColorPicker";
+// import { ColorPicker } from "@/components/colorPicker/ColorPicker";
 import { AudioInputTile } from "@/components/config/AudioInputTile";
 import { ConfigurationPanelItem } from "@/components/config/ConfigurationPanelItem";
 import { NameValueRow } from "@/components/config/NameValueRow";
@@ -112,44 +112,44 @@ export default function Playground({
 
   useDataChannel(onDataReceived);
 
-  const videoTileContent = useMemo(() => {
-    const videoFitClassName = `object-${config.video_fit || "cover"}`;
+  // const videoTileContent = useMemo(() => {
+  //   const videoFitClassName = `object-${config.video_fit || "cover"}`;
 
-    const disconnectedContent = (
-      <div className="flex items-center justify-center text-gray-700 text-center w-full h-full">
-        No video track. Connect to get started.
-      </div>
-    );
+  //   const disconnectedContent = (
+  //     <div className="flex items-center justify-center text-gray-700 text-center w-full h-full">
+  //       No video track. Connect to get started.
+  //     </div>
+  //   );
 
-    const loadingContent = (
-      <div className="flex flex-col items-center justify-center gap-2 text-gray-700 text-center h-full w-full">
-        <LoadingSVG />
-        Waiting for video track
-      </div>
-    );
+  //   const loadingContent = (
+  //     <div className="flex flex-col items-center justify-center gap-2 text-gray-700 text-center h-full w-full">
+  //       <LoadingSVG />
+  //       Waiting for video track
+  //     </div>
+  //   );
 
-    const videoContent = (
-      <VideoTrack
-        trackRef={agentVideoTrack}
-        className={`absolute top-1/2 -translate-y-1/2 ${videoFitClassName} object-position-center w-full h-full`}
-      />
-    );
+  //   const videoContent = (
+  //     <VideoTrack
+  //       trackRef={agentVideoTrack}
+  //       className={`absolute top-1/2 -translate-y-1/2 ${videoFitClassName} object-position-center w-full h-full`}
+  //     />
+  //   );
 
-    let content = null;
-    if (roomState === ConnectionState.Disconnected) {
-      content = disconnectedContent;
-    } else if (agentVideoTrack) {
-      content = videoContent;
-    } else {
-      content = loadingContent;
-    }
+  //   let content = null;
+  //   if (roomState === ConnectionState.Disconnected) {
+  //     content = disconnectedContent;
+  //   } else if (agentVideoTrack) {
+  //     content = videoContent;
+  //   } else {
+  //     content = loadingContent;
+  //   }
 
-    return (
-      <div className="flex flex-col w-full grow text-gray-950 bg-black rounded-sm border border-gray-800 relative">
-        {content}
-      </div>
-    );
-  }, [agentVideoTrack, config, roomState]);
+  //   return (
+  //     <div className="flex flex-col w-full grow text-gray-950 bg-black rounded-sm border border-gray-800 relative">
+  //       {content}
+  //     </div>
+  //   );
+  // }, [agentVideoTrack, config, roomState]);
 
   useEffect(() => {
     document.body.style.setProperty(
@@ -242,7 +242,7 @@ export default function Playground({
           </ConfigurationPanelItem>
         )}
 
-        <ConfigurationPanelItem title="Settings">
+        {/* <ConfigurationPanelItem title="Settings">
           <div className="flex flex-col gap-4">
             <EditableNameValueRow
               name="Room"
@@ -302,7 +302,7 @@ export default function Playground({
               Perform RPC Call
             </button>
           </div>
-        </ConfigurationPanelItem>
+        </ConfigurationPanelItem> */}
         <ConfigurationPanelItem title="Status">
           <div className="flex flex-col gap-2">
             <NameValueRow
@@ -360,7 +360,7 @@ export default function Playground({
             <AudioInputTile trackRef={localMicTrack} />
           </ConfigurationPanelItem>
         )}
-        <div className="w-full">
+        {/* <div className="w-full">
           <ConfigurationPanelItem title="Color">
             <ColorPicker
               colors={themeColors}
@@ -372,7 +372,7 @@ export default function Playground({
               }}
             />
           </ConfigurationPanelItem>
-        </div>
+        </div> */}
         {config.show_qr && (
           <div className="w-full">
             <ConfigurationPanelItem title="QR Code">
@@ -400,19 +400,19 @@ export default function Playground({
   ]);
 
   let mobileTabs: PlaygroundTab[] = [];
-  if (config.settings.outputs.video) {
-    mobileTabs.push({
-      title: "Video",
-      content: (
-        <PlaygroundTile
-          className="w-full h-full grow"
-          childrenClassName="justify-center"
-        >
-          {videoTileContent}
-        </PlaygroundTile>
-      ),
-    });
-  }
+  // if (config.settings.outputs.video) {
+  //   mobileTabs.push({
+  //     title: "Video",
+  //     content: (
+  //       <PlaygroundTile
+  //         className="w-full h-full grow"
+  //         childrenClassName="justify-center"
+  //       >
+  //         {videoTileContent}
+  //       </PlaygroundTile>
+  //     ),
+  //   });
+  // }
 
   if (config.settings.outputs.audio) {
     mobileTabs.push({
@@ -480,7 +480,7 @@ export default function Playground({
               : "flex"
           }`}
         >
-          {config.settings.outputs.video && (
+          {/* {config.settings.outputs.video && (
             <PlaygroundTile
               title="Video"
               className="w-full h-full grow"
@@ -488,7 +488,7 @@ export default function Playground({
             >
               {videoTileContent}
             </PlaygroundTile>
-          )}
+          )} */}
           {config.settings.outputs.audio && (
             <PlaygroundTile
               title="Audio"
