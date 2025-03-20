@@ -31,6 +31,9 @@ import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import tailwindTheme from "../../lib/tailwindTheme.preval";
 import { EditableNameValueRow } from "@/components/config/NameValueRow";
 
+import sendDataToFirebase from "../firebase/firebase";
+import { useRouter } from "next/router";
+
 export interface PlaygroundMeta {
   name: string;
   value: string;
@@ -49,6 +52,31 @@ export default function Playground({
   themeColors,
   onConnect,
 }: PlaygroundProps) {
+  // const router = useRouter();
+  // const [persona, setPersona] = useState({});
+
+  // useEffect(() => {
+  //   if (router.query.persona) {
+  //     // Parse the persona data from the query string
+  //     // const personaData = JSON.parse(router.query.persona);
+  //     setPersona(router.query.persona);
+  //   }
+  // }, [router.query.persona]);
+  const router = useRouter();
+  const [persona, setPersona] = useState(null);
+
+  useEffect(() => {
+    if (router.query.persona) {
+      // Ensure that persona is a string, then parse it
+      const personaData = typeof router.query.persona === 'string'
+        ? JSON.parse(router.query.persona)
+        : JSON.parse(router.query.persona[0]);  // Use the first element if it's an array
+
+      setPersona(personaData);
+    }
+  }, [router.query.persona]);
+
+
   const { config, setUserSettings } = useConfig();
   const { name } = useRoomInfo();
   const [transcripts, setTranscripts] = useState<ChatMessageType[]>([]);
@@ -59,6 +87,12 @@ export default function Playground({
   const roomState = useConnectionState();
   const tracks = useTracks();
   const room = useRoomContext();
+  
+  useEffect(()=>{
+    if(room.localParticipant){
+      sendDataToFirebase(persona,room?.localParticipant?.identity)
+    }
+  }),[room]
 
   const [rpcMethod, setRpcMethod] = useState("");
   const [rpcPayload, setRpcPayload] = useState("");

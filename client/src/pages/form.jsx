@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+// import sendDataToFirebase from "../components/firebase/firebase";
 
 export default function Form() {
   const [showForm, setShowForm] = useState(false);
@@ -64,12 +65,14 @@ export default function Form() {
   const handleSubmit = async () => {
     if (showForm && !validateForm()) return;
 
-    await fetch("http://127.0.0.1:5000/api/update_persona", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(persona),
+    // await sendDataToFirebase(persona,identity)
+    
+    // router.push("/home");
+
+    router.push({
+      pathname: '/home',
+      query: { persona: JSON.stringify(persona) },
     });
-    router.push("/home");
   };
 
   return (
