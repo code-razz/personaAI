@@ -73,6 +73,7 @@ export default function Playground({
         : JSON.parse(router.query.persona[0]);  // Use the first element if it's an array
 
       setPersona(personaData);
+      console.log(persona)
     }
   }, [router.query.persona]);
 
