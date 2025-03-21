@@ -2,6 +2,7 @@ import type React from "react";
 import Head from "next/head";
 import router from "next/router";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 const PersonAILanding: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -40,7 +41,7 @@ const PersonAILanding: React.FC = () => {
         {/* Header */}
         <header className="container mx-auto py-6 px-4 flex justify-between items-center">
           {/* Logo moved slightly left */}
-          <div className="flex items-center gap-2 -ml-4">
+          {/* <div className="flex items-center gap-2 -ml-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -58,7 +59,10 @@ const PersonAILanding: React.FC = () => {
               <line x1="12" x2="12" y1="19" y2="22"></line>
             </svg>
             <span className="text-2xl font-bold">personAI</span>
-          </div>
+          </div> */}
+          <Link href="/">
+            <Logo />
+          </Link>
 
           {/* Navigation moved to the right */}
           <nav className="flex gap-6">
@@ -96,7 +100,9 @@ const PersonAILanding: React.FC = () => {
                 >
                   Try personAI
                 </button>
-                <button className="px-6 py-3 border border-gray-300 rounded-md font-medium">Learn More</button>
+                <Link href="learnmore">
+                  <button className="px-6 py-3 border border-gray-300 rounded-md font-medium">Learn More</button>
+                </Link>
               </div>
             </section>
           </div>

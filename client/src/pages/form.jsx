@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
+import { prebuiltPersonas } from "../personas/preBuiltPersonas";
+import { fetchFromLocalStorage, saveToLocalStorage } from "../utils/localStorage";
 
 
 export default function PersonaSelection() {
@@ -16,81 +18,77 @@ export default function PersonaSelection() {
     purpose: "",
     response_type: "",
     backstory: "",
-    // avatar:"",
+    avatar:"agent.jpeg",
   });
 
+  
   const router = useRouter();
   const currentYear = new Date().getFullYear();
+  
+  
+  // const personas=prebuiltPersonas;
+  const [personas,setPersonas]=useState(prebuiltPersonas);
 
-  const prebuiltPersonas = [
-    // { type: "librarian", persona_name: "Frustrated Librarian", avatar: "/avatars/librarian.png" },
-    // { type: "judge", persona_name: "Sarcastic Judge", avatar: "/avatars/judge.png" },
-    // { type: "einstein", persona_name: "Albert Einstein", avatar: "/avatars/einstein.png" },
-    // { type: "coach", persona_name: "Motivational Coach", avatar: "/avatars/coach.png" },
-    // { type: "detective", persona_name: "Sherlock Holmes", avatar: "/avatars/detective.png" },
-    {
-      type: "librarian",
-      persona_name: "Frustrated Librarian",
-      sex: "Female",
-      role: "Librarian",
-      traits: "Irritable, Strict, Knowledgeable, Sarcastic",
-      tone: "Dry and slightly condescending",
-      purpose: "To maintain order in the library and ensure rules are strictly followed.",
-      response_type: "Short, curt, and sometimes passive-aggressive",
-      backstory: "Years of dealing with noisy patrons, careless book handling, and students who think Google is a replacement for real research have left her perpetually exasperated. She once loved books and quiet spaces, but now she’s just trying to survive each day without screaming. She has an encyclopedic knowledge of literature, but good luck getting her to share it without a sigh and an eye-roll."
-    },
-    {
-      type: "judge",
-      persona_name: "Sarcastic Judge",
-      sex: "Male",
-      role: "Senior Software Engineer at Google & Hackathon Judge",
-      traits: "Witty, Blunt, Highly Experienced, Sarcastic, Unimpressed",
-      tone: "Overly professional but drenched in sarcasm",
-      purpose: "To evaluate technical projects, crush overconfidence, and ensure nobody calls a to-do list app 'AI-powered innovation'.",
-      response_type: "Brutally honest, dry, and occasionally soul-crushingly funny",
-      backstory: "After years of debugging nightmares and listening to CEOs pitch 'the Uber of everything,' he took up hackathon judging for fun—well, mostly to roast undercooked ideas. A Senior Software Engineer at Google, he's seen fresh grads reinvent databases in the worst possible way and claim it’s 'the future of storage.' If your code runs without setting your laptop on fire, you might earn a nod of approval. If you say ‘blockchain’ without a good reason, expect an eye-roll so hard it might cause a power outage."
-    },
-    {
-      type: "einstein",
-      persona_name: "Albert Einstein",
-      sex: "Male",
-      role: "Theoretical Physicist & Genius",
-      traits: "Brilliant, Curious, Humble, Playful, Deep Thinker",
-      tone: "Thoughtful, insightful, occasionally humorous",
-      purpose: "To explore the mysteries of the universe, challenge conventional thinking, and make complex ideas understandable.",
-      response_type: "Philosophical, metaphorical, and sometimes playfully witty",
-      backstory: "Once a rebellious student who was told he wouldn’t amount to much, he went on to change the world with his theories of relativity. While he revolutionized physics, he remained deeply curious about philosophy, music, and human nature. Despite his genius, he never took himself too seriously—except when it came to challenging the boundaries of knowledge. If you ask him about time, prepare for an answer that might break your brain."
-    },
-    {
-      type: "boy",
-      persona_name: "Flirty Boy",
-      sex: "Male",
-      role: "Charming Conversationalist",
-      traits: "Smooth, Playful, Confident, Witty, Teasing",
-      tone: "Casually seductive with a playful edge",
-      purpose: "To turn every conversation into a lighthearted, flirtatious exchange while making people smile.",
-      response_type: "Charming, witty, and laced with compliments",
-      backstory: "With a natural gift for words and a smile that can disarm even the most serious souls, he flirts as effortlessly as he breathes. Whether it's a witty remark or a perfectly timed compliment, he knows how to keep things fun and engaging. He doesn’t just flirt for the sake of it—he enjoys making people feel special, even if it’s just for a moment. If you can keep up with his banter, you might just earn his undivided attention."
-    } 
-  ];
+  // Fetch persona data from localStorage on component mount
+  useEffect(() => {
+    const savedPersonas = fetchFromLocalStorage("persona");
 
-  const handlePrebuiltSelection = (type) => {
-    const selected = prebuiltPersonas.find((p) => p.type === type);
+    setPersonas((prevPersonas) => {
+      const newPersonas = savedPersonas.filter(savedPersona => 
+        !prevPersonas.some(existingPersona => existingPersona.persona_name === savedPersona.persona_name)
+      );
+      
+      return [...prevPersonas, ...newPersonas];
+    });
+
+    console.log(personas);
+    
+    // setPersonas(savedPersonas);
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(personas);
+  // }, [personas]); // This will log every time personas state changes
+  
+
+  const handleAddPersona = (e) => {
+    e.preventDefault();
+    console.log("Custom Persona Created:", persona);
+    setShowForm(false);
+    const newPersona = persona;
+    const updatedPersonas = [...personas, newPersona];
+    
+    // Update state with the new persona and save to localStorage
+    setPersonas(updatedPersonas);
+    saveToLocalStorage("persona", updatedPersonas);
+  };
+  // const handleSubmit = (e) => {
+  //   // console.log("submit custom",persona)
+  //   e.preventDefault();
+  //   console.log("Custom Persona Created:", persona);
+  //   router.push({
+  //     pathname: '/home',
+  //     query: { persona: JSON.stringify(persona) },
+  //   });
+  // };
+
+  const handlePrebuiltSelection = (persona_name) => {
+    const selected = personas.find((p) => p.persona_name === persona_name);
     console.log(selected)
-    // console.log("thype",type)
+    // console.log("thype",persona_name)
     while (!selected) {
       console.log("in loop not selected any persona",selected)
     }
     // console.log("out loop ",selected)
     setPersona(selected);
-    // setSelectedPersona(type);
+    // setSelectedPersona(persona_name);
     setShowForm(false);
     // setErrors({});
     router.push({
       pathname: '/home',
       query: { persona: JSON.stringify(selected) },
     });
-    // setSelectedPersona(type);
+    // setSelectedPersona(persona_name);
     // setShowForm(false);
   };
 
@@ -104,15 +102,7 @@ export default function PersonaSelection() {
     setPersona((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    // console.log("submit custom",persona)
-    e.preventDefault();
-    console.log("Custom Persona Created:", persona);
-    router.push({
-      pathname: '/home',
-      query: { persona: JSON.stringify(persona) },
-    });
-  };
+
 
   return (
     <>
@@ -147,15 +137,16 @@ export default function PersonaSelection() {
 
               {/* Persona Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-12">
-                {prebuiltPersonas.map((p) => {
+                {personas.map((p) => {
+                  // console.log("p ",p)
                   const words = p.persona_name.split(" ");
                   const firstPart = words.slice(0, -1).join(" ");
                   const lastWord = words[words.length - 1];
 
                   return (
                     <button
-                      key={p.type}
-                      onClick={() => handlePrebuiltSelection(p.type)}
+                      key={p.persona_name}
+                      onClick={() => handlePrebuiltSelection(p.persona_name)}
                       className="persona-card border-2 border-prim bg-white w-72 h-96 p-6 rounded-lg flex flex-col items-center transition hover:scale-105"
                     >
                       <div className="w-full h-72 rounded-lg bg-gray-200 flex items-center justify-center">
@@ -185,7 +176,7 @@ export default function PersonaSelection() {
             </>
           ) : (
             /* Custom Persona Form */
-            <form onSubmit={handleSubmit} className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg border-2 border-prim">
+            <form onSubmit={handleAddPersona} className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg border-2 border-prim">
               <h1 className="text-4xl font-bold mb-8">
                 <span className="text-black">Create</span> <span className="text-prim">Persona</span>
               </h1>
@@ -201,15 +192,25 @@ export default function PersonaSelection() {
                 ].map(({ name, placeholder }) => (
                   <div key={name}>
                     <label className="block text-gray-700 font-medium">{name.replace("_", " ").toUpperCase()}</label>
-                    <input
-                      type="text"
-                      name={name}
-                      value={persona[name]}
-                      onChange={handleInputChange}
-                      placeholder={placeholder}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-prim"
-                    />
+                    {name === "backstory" ? (
+                      <textarea
+                        name={name}
+                        value={persona[name]}
+                        onChange={handleInputChange}
+                        placeholder={placeholder}
+                        className="w-full px-4 py-2 h-40 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-prim"
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        name={name}
+                        value={persona[name]}
+                        onChange={handleInputChange}
+                        placeholder={placeholder}
+                        required
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-prim"
+                      />
+                    )}
                   </div>
                 ))}
               </div>

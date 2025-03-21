@@ -7,8 +7,8 @@ export default function About() {
 
   const developers = [
     { name: "Aaryan Agrawal", email: "itsaaryanagrawal@gmail.com" },
-    { name: "Anmol Bhusal", email: "bhishanpangeni2003@gmail.com" },
-    { name: "Bhishan Pangeni", email: "anmol52490@gmail.com" },
+    { name: "Anmol Bhusal", email: "anmol52490@gmail.com" },
+    { name: "Bhishan Pangeni", email: "bhishanpangeni2003@gmail.com" },
     { name: "Raj Kumar Sah", email: "rajsah5556@gmail.com" },
   ];
 
