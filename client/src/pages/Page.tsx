@@ -15,8 +15,8 @@ const PersonAILanding: React.FC = () => {
           content="A personalized AI voice assistant with a unique persona tailored to your preferences."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script
+        {/* <script src="https://cdn.tailwindcss.com"></script> */}
+        {/* <script
           dangerouslySetInnerHTML={{
             __html: `
             tailwind.config = {
@@ -33,7 +33,7 @@ const PersonAILanding: React.FC = () => {
             }
           `,
           }}
-        />
+        /> */}
       </Head>
 
       <div className="bg-base text-gray-900 min-h-screen flex flex-col">
