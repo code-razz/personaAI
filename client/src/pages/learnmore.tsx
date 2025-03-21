@@ -58,7 +58,7 @@ export default function LearnMore() {
               <ul className="space-y-4 text-left">
                 <li className="flex items-start gap-3">
                   <span className="text-prim text-2xl">◆</span>
-                  <span><span className="font-bold">Education:</span> AI tutors adapt to students' learning styles.</span>
+                  <span><span className="font-bold">Education:</span> AI tutors adapt to students&apos; learning styles.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-prim text-2xl">◆</span>
