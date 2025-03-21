@@ -1,4 +1,4 @@
-import Landing from "./Landing";
+// import Landing from "./Landing";
 import Page from './Page'
 
 export default function Start() {
