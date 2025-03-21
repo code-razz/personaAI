@@ -373,7 +373,7 @@ export default function Playground({
             />
           </div>
         </ConfigurationPanelItem>
-        {/* {localVideoTrack && (
+        {localVideoTrack && (
           <ConfigurationPanelItem
             title="Camera"
             deviceSelectorKind="videoinput"
@@ -385,7 +385,7 @@ export default function Playground({
               />
             </div>
           </ConfigurationPanelItem>
-        )} */}
+        )}
         {localMicTrack && (
           <ConfigurationPanelItem
             title="Microphone"
