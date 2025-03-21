@@ -1,6 +1,7 @@
 import type React from "react";
 import Head from "next/head";
 import router from "next/router";
+import Link from "next/link";
 
 const PersonAILanding: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -64,9 +65,9 @@ const PersonAILanding: React.FC = () => {
             <a href="#features" className="text-lg text-gray-700 font-bold hover:text-primary transition-colors">
               Features
             </a>
-            <a href="#contact" className="text-lg text-gray-700 font-bold hover:text-primary transition-colors">
-              Contact
-            </a>
+            <Link href="/about" className="text-lg text-gray-700 font-bold hover:text-primary transition-colors">
+              About Us
+            </Link>
           </nav>
         </header>
 
