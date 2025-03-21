@@ -35,7 +35,7 @@ const PersonAILanding: React.FC = () => {
         />
       </Head>
 
-      <div className="bg-white text-gray-900 min-h-screen flex flex-col">
+      <div className="bg-base text-gray-900 min-h-screen flex flex-col">
         {/* Header */}
         <header className="container mx-auto py-6 px-4 flex justify-between items-center">
           {/* Logo moved slightly left */}
@@ -61,10 +61,10 @@ const PersonAILanding: React.FC = () => {
 
           {/* Navigation moved to the right */}
           <nav className="flex gap-6">
-            <a href="#features" className="text-sm text-gray-500 hover:text-primary transition-colors">
+            <a href="#features" className="text-lg text-gray-700 font-bold hover:text-primary transition-colors">
               Features
             </a>
-            <a href="#contact" className="text-sm text-gray-500 hover:text-primary transition-colors">
+            <a href="#contact" className="text-lg text-gray-700 font-bold hover:text-primary transition-colors">
               Contact
             </a>
           </nav>
@@ -72,42 +72,52 @@ const PersonAILanding: React.FC = () => {
 
         <main className="flex-1">
           {/* Hero Section */}
-          <section className="py-20 md:py-32 container mx-auto px-4 text-center">
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-              Meet <span className="text-primary">personAI</span>
-            </h1>
-            <p className="text-2xl md:text-3xl text-gray-500 max-w-2xl mx-auto mb-10">
-              Your personal AI voice assistant with a unique persona tailored to your preferences.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-              onClick={() => router.push("/form1")} 
-              className="px-6 py-3 bg-primary text-white rounded-md font-medium"
-              >
-                Try personAI
-              </button>
-              <button className="px-6 py-3 border border-gray-300 rounded-md font-medium">Learn More</button>
-            </div>
-          </section>
+          <div className="">
+            <section 
+            className="h-screen p-20 container mx-auto px-4 text-center"
+            style={{
+              backgroundImage: "url('/robot.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center top 150px",
+              backgroundRepeat: "no-repeat",
+            }}
+            >
+              <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+                Meet <span className="text-prim">personAI</span>
+              </h1>
+              <p className="text-2xl md:text-3xl text-gray-700 max-w-2xl mx-auto mb-10">
+                Your personal AI voice assistant with a unique persona tailored to your preferences.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button 
+                onClick={() => router.push("/form1")} 
+                className="px-6 py-3 bg-prim text-white rounded-md font-medium"
+                >
+                  Try personAI
+                </button>
+                <button className="px-6 py-3 border border-gray-300 rounded-md font-medium">Learn More</button>
+              </div>
+            </section>
+          </div>
 
           {/* Features Section */}
-          <section id="features" className="py-20 bg-gray-50">
+          <section id="features" className="py-20 bg-gray-50 rounded-3xl m-10 mt-0 mb-2">
             <div className="container mx-auto px-4">
-              <h2 className="text-4xl font-bold text-center mb-12">Why Choose personAI?</h2>
+              <h2 className="text-4xl font-bold text-center mb-12">Why Choose <span className="text-prim">personAI</span>?</h2>
               <div className="grid md:grid-cols-3 gap-8">
-                <div className="bg-white p-6 rounded-lg border shadow-sm">
+                <div className="bg-base p-6 rounded-lg border shadow-sm">
                   <h3 className="text-2xl font-medium mb-2">Personalized Experience</h3>
                   <p className="text-lg text-gray-500">
                     Create custom personas that match your preferences and communication style.
                   </p>
                 </div>
-                <div className="bg-white p-6 rounded-lg border shadow-sm">
+                <div className="bg-base p-6 rounded-lg border shadow-sm">
                   <h3 className="text-2xl font-medium mb-2">Advanced AI</h3>
                   <p className="text-lg text-gray-500">
                     Powered by cutting-edge voice recognition and natural language processing.
                   </p>
                 </div>
-                <div className="bg-white p-6 rounded-lg border shadow-sm">
+                <div className="bg-base p-6 rounded-lg border shadow-sm">
                   <h3 className="text-2xl font-medium mb-2">Secure & Private</h3>
                   <p className="text-lg text-gray-500">
                     Your data stays private with end-to-end encryption and secure AI models.

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import Link from "next/link";
+
 
 export default function PersonaSelection() {
   const [showForm, setShowForm] = useState(false);
@@ -120,28 +122,27 @@ export default function PersonaSelection() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
 
-      <div className="bg-white text-gray-900 min-h-screen flex flex-col font-sans">
+      <div className="bg-base text-gray-900 min-h-screen flex flex-col font-sans">
         {/* Header */}
         <header className="container mx-auto py-6 px-4 flex justify-between items-center">
-          <div className="flex items-center gap-2 -ml-6">
-            {/* Logo */}
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#8B5CF6]">
-              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-              <line x1="12" x2="12" y1="19" y2="22"></line>
-            </svg>
-            <span className="text-3xl font-bold text-black">personAI</span>
-          </div>
-          <nav className="flex gap-6">
-            <a href="/" className="text-sm text-gray-500 hover:text-[#8B5CF6] transition">Home</a>
-          </nav>
+          <Link href="/">
+            <div className="flex items-center gap-2 -ml-6">
+              {/* Logo */}
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-prim">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" x2="12" y1="19" y2="22"></line>
+              </svg>
+              <span className="text-3xl font-bold text-black">personAI</span>
+            </div>
+          </Link>
         </header>
 
         <main className="flex-1 flex flex-col items-center overflow-y-auto pb-24 px-6">
           {!showForm ? (
             <>
               <h1 className="text-4xl font-bold mb-8">
-                <span className="text-black">Choose Your</span> <span className="text-[#8B5CF6]">Persona</span>
+                <span className="text-black">Choose Your</span> <span className="text-prim">Persona</span>
               </h1>
 
               {/* Persona Cards */}
@@ -155,13 +156,13 @@ export default function PersonaSelection() {
                     <button
                       key={p.type}
                       onClick={() => handlePrebuiltSelection(p.type)}
-                      className="persona-card border-2 border-[#8B5CF6] bg-white w-72 h-96 p-6 rounded-lg flex flex-col items-center transition hover:scale-105"
+                      className="persona-card border-2 border-prim bg-white w-72 h-96 p-6 rounded-lg flex flex-col items-center transition hover:scale-105"
                     >
                       <div className="w-full h-72 rounded-lg bg-gray-200 flex items-center justify-center">
                         <img src={p.avatar} alt={p.persona_name} className="w-5/6 h-5/6 object-cover rounded-lg" />
                       </div>
                       <p className="mt-4 text-xl font-bold">
-                        <span className="text-black">{firstPart}</span> <span className="text-[#8B5CF6]">{lastWord}</span>
+                        <span className="text-black">{firstPart}</span> <span className="text-prim">{lastWord}</span>
                       </p>
                     </button>
                   );
@@ -170,13 +171,13 @@ export default function PersonaSelection() {
                 {/* Custom Persona Card */}
                 <button
                   onClick={handleCustomSelection}
-                  className="persona-card border-2 border-[#8B5CF6] bg-white w-72 h-96 p-6 rounded-lg flex flex-col items-center transition hover:scale-105"
+                  className="persona-card border-2 border-prim bg-white w-72 h-96 p-6 rounded-lg flex flex-col items-center transition hover:scale-105"
                 >
                   <div className="w-full h-72 rounded-lg bg-gray-200 flex items-center justify-center">
-                    <span className="text-7xl font-bold text-[#8B5CF6]">+</span>
+                    <span className="text-7xl font-bold text-prim">+</span>
                   </div>
                   <p className="mt-4 text-xl font-bold">
-                    <span className="text-black">Custom</span> <span className="text-[#8B5CF6]">Persona</span>
+                    <span className="text-black">Custom</span> <span className="text-prim">Persona</span>
                   </p>
                 </button>
               </div>
@@ -184,9 +185,9 @@ export default function PersonaSelection() {
             </>
           ) : (
             /* Custom Persona Form */
-            <form onSubmit={handleSubmit} className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg border-2 border-[#8B5CF6]">
+            <form onSubmit={handleSubmit} className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg border-2 border-prim">
               <h1 className="text-4xl font-bold mb-8">
-                <span className="text-black">Create</span> <span className="text-[#8B5CF6]">Persona</span>
+                <span className="text-black">Create</span> <span className="text-prim">Persona</span>
               </h1>
               <div className="space-y-5">
                 {[
@@ -207,7 +208,7 @@ export default function PersonaSelection() {
                       onChange={handleInputChange}
                       placeholder={placeholder}
                       required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-prim"
                     />
                   </div>
                 ))}
@@ -217,7 +218,7 @@ export default function PersonaSelection() {
                 <button type="button" onClick={() => setShowForm(false)} className="px-6 py-3 border border-gray-500 text-gray-700 rounded-md font-medium hover:bg-gray-100 transition">
                   Back
                 </button>
-                <button type="submit" className="px-6 py-3 bg-[#8B5CF6] text-white rounded-md font-medium hover:bg-purple-700 transition">
+                <button type="submit" className="px-6 py-3 bg-prim text-white rounded-md font-medium hover:bg-purple-700 transition">
                   Save Persona
                 </button>
               </div>
