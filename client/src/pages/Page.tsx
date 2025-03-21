@@ -91,7 +91,7 @@ const PersonAILanding: React.FC = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button 
-                onClick={() => router.push("/form1")} 
+                onClick={() => router.push("/form")} 
                 className="px-6 py-3 bg-prim text-white rounded-md font-medium"
                 >
                   Try personAI

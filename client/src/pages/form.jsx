@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-// import sendDataToFirebase from "../components/firebase/firebase";
+import Head from "next/head";
+import Link from "next/link";
 
-export default function Form() {
+
+export default function PersonaSelection() {
   const [showForm, setShowForm] = useState(false);
   const [selectedPersona, setSelectedPersona] = useState(null);
-  // ✅
-  const [errors, setErrors] = useState({});
   const [persona, setPersona] = useState({
+    // type:"",
     persona_name: "",
     sex: "",
     traits: "",
@@ -15,12 +16,18 @@ export default function Form() {
     purpose: "",
     response_type: "",
     backstory: "",
+    // avatar:"",
   });
 
   const router = useRouter();
+  const currentYear = new Date().getFullYear();
 
-  // Define pre-built personas as an array of objects
   const prebuiltPersonas = [
+    // { type: "librarian", persona_name: "Frustrated Librarian", avatar: "/avatars/librarian.png" },
+    // { type: "judge", persona_name: "Sarcastic Judge", avatar: "/avatars/judge.png" },
+    // { type: "einstein", persona_name: "Albert Einstein", avatar: "/avatars/einstein.png" },
+    // { type: "coach", persona_name: "Motivational Coach", avatar: "/avatars/coach.png" },
+    // { type: "detective", persona_name: "Sherlock Holmes", avatar: "/avatars/detective.png" },
     {
       type: "librarian",
       persona_name: "Frustrated Librarian",
@@ -69,30 +76,38 @@ export default function Form() {
 
   const handlePrebuiltSelection = (type) => {
     const selected = prebuiltPersonas.find((p) => p.type === type);
-    if (selected) {
-      setPersona(selected);
-      setSelectedPersona(type);
-      setShowForm(false);
-      setErrors({});
+    console.log(selected)
+    // console.log("thype",type)
+    while (!selected) {
+      console.log("in loop not selected any persona",selected)
     }
-  };
-
-  const validateForm = () => {
-    let newErrors = {};
-    Object.keys(persona).forEach((key) => {
-      if (!persona[key]) newErrors[key] = "This field is required.";
+    // console.log("out loop ",selected)
+    setPersona(selected);
+    // setSelectedPersona(type);
+    setShowForm(false);
+    // setErrors({});
+    router.push({
+      pathname: '/home',
+      query: { persona: JSON.stringify(selected) },
     });
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    // setSelectedPersona(type);
+    // setShowForm(false);
   };
 
-  const handleSubmit = async () => {
-    if (showForm && !validateForm()) return;
+  const handleCustomSelection = () => {
+    setSelectedPersona("custom");
+    setShowForm(true);
+  };
 
-    // await sendDataToFirebase(persona,identity)
-    
-    // router.push("/home");
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setPersona((prev) => ({ ...prev, [name]: value }));
+  };
 
+  const handleSubmit = (e) => {
+    // console.log("submit custom",persona)
+    e.preventDefault();
+    console.log("Custom Persona Created:", persona);
     router.push({
       pathname: '/home',
       query: { persona: JSON.stringify(persona) },
@@ -100,97 +115,122 @@ export default function Form() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5E7DE] p-6 flex flex-col items-center">
-      <h1 className="text-3xl font-bold mb-6 text-black">Create Your Persona</h1>
+    <>
+      <Head>
+        <title>personAI - Select Your Persona</title>
+        <meta name="description" content="Choose or create a personalized AI persona." />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
 
-      <div className="flex gap-4">
-        <button
-          onClick={() => {
-            setShowForm(true);
-            setSelectedPersona(null);
-            setPersona({
-              persona_name: "",
-              sex: "",
-              traits: "",
-              tone: "",
-              purpose: "",
-              response_type: "",
-              backstory: "",
-            });
-            setErrors({});
-          }}
-          className={`px-4 py-2 rounded-xl font-semibold transition-all ${
-            showForm ? "bg-black text-white" : "bg-[#F2BFA4] hover:bg-black hover:text-white"
-          }`}
-        >
-          Custom Persona
-        </button>
-        <button
-          onClick={() => {
-            setShowForm(false);
-            setSelectedPersona(null);
-          }}
-          className={`px-4 py-2 rounded-xl font-semibold transition-all ${
-            !showForm && selectedPersona === null ? "bg-black text-white" : "bg-[#F2BFA4] hover:bg-black hover:text-white"
-          }`}
-        >
-          Pre-built Personas
-        </button>
-      </div>
-
-      {!showForm && (
-        <div className="flex gap-6 mt-4">
-          {prebuiltPersonas.map((p) => (
-            <button
-              key={p.type}
-              onClick={() => handlePrebuiltSelection(p.type)}
-              className={`w-40 h-40 flex items-center justify-center text-lg font-semibold rounded-lg transition-all ${
-                selectedPersona === p.type ? "bg-black text-white" : "bg-[#F2BFA4] hover:bg-black hover:text-white"
-              }`}
-            >
-              {p.persona_name}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {selectedPersona && (
-        <div className="mt-4 p-4 bg-white rounded-lg shadow-lg w-96">
-          <h2 className="text-xl font-semibold text-black mb-2">{persona.persona_name}</h2>
-          <p className="text-black"><strong>Sex:</strong> {persona.sex}</p>
-          <p className="text-black"><strong>Traits:</strong> {persona.traits}</p>
-          <p className="text-black"><strong>Tone:</strong> {persona.tone}</p>
-          <p className="text-black"><strong>Purpose:</strong> {persona.purpose}</p>
-          <p className="text-black"><strong>Response Type:</strong> {persona.response_type}</p>
-          <p className="text-black"><strong>Backstory:</strong> {persona.backstory}</p>
-        </div>
-      )}
-
-      {showForm && (
-        <div className="mt-6 bg-white p-6 rounded-lg shadow-lg w-96">
-          {Object.keys(persona).map((key) => (
-            <div key={key} className="mb-2">
-              <input
-                className={`w-full p-2 border rounded-md ${
-                  errors[key] ? "border-red-500" : "border-gray-300"
-                }`}
-                type="text"
-                placeholder={key.replace("_", " ").toUpperCase()}
-                value={persona[key]}
-                onChange={(e) => setPersona({ ...persona, [key]: e.target.value })}
-              />
-              {errors[key] && <p className="text-red-500 text-sm">{errors[key]}</p>}
+      <div className="bg-base text-gray-900 min-h-screen flex flex-col font-sans">
+        {/* Header */}
+        <header className="container mx-auto py-6 px-4 flex justify-between items-center">
+          <Link href="/">
+            <div className="flex items-center gap-2 -ml-6">
+              {/* Logo */}
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-prim">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" x2="12" y1="19" y2="22"></line>
+              </svg>
+              <span className="text-3xl font-bold text-black">personAI</span>
             </div>
-          ))}
-        </div>
-      )}
+          </Link>
+        </header>
 
-      <button
-        onClick={handleSubmit}
-        className="mt-6 bg-black text-white px-6 py-3 rounded-xl font-semibold hover:bg-gray-800 transition-all"
-      >
-        Create Persona
-      </button>
-    </div>
+        <main className="flex-1 flex flex-col items-center overflow-y-auto pb-24 px-6">
+          {!showForm ? (
+            <>
+              <h1 className="text-4xl font-bold mb-8">
+                <span className="text-black">Choose Your</span> <span className="text-prim">Persona</span>
+              </h1>
+
+              {/* Persona Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-12">
+                {prebuiltPersonas.map((p) => {
+                  const words = p.persona_name.split(" ");
+                  const firstPart = words.slice(0, -1).join(" ");
+                  const lastWord = words[words.length - 1];
+
+                  return (
+                    <button
+                      key={p.type}
+                      onClick={() => handlePrebuiltSelection(p.type)}
+                      className="persona-card border-2 border-prim bg-white w-72 h-96 p-6 rounded-lg flex flex-col items-center transition hover:scale-105"
+                    >
+                      <div className="w-full h-72 rounded-lg bg-gray-200 flex items-center justify-center">
+                        <img src={p.avatar} alt={p.persona_name} className="w-5/6 h-5/6 object-cover rounded-lg" />
+                      </div>
+                      <p className="mt-4 text-xl font-bold">
+                        <span className="text-black">{firstPart}</span> <span className="text-prim">{lastWord}</span>
+                      </p>
+                    </button>
+                  );
+                })}
+
+                {/* Custom Persona Card */}
+                <button
+                  onClick={handleCustomSelection}
+                  className="persona-card border-2 border-prim bg-white w-72 h-96 p-6 rounded-lg flex flex-col items-center transition hover:scale-105"
+                >
+                  <div className="w-full h-72 rounded-lg bg-gray-200 flex items-center justify-center">
+                    <span className="text-7xl font-bold text-prim">+</span>
+                  </div>
+                  <p className="mt-4 text-xl font-bold">
+                    <span className="text-black">Custom</span> <span className="text-prim">Persona</span>
+                  </p>
+                </button>
+              </div>
+
+            </>
+          ) : (
+            /* Custom Persona Form */
+            <form onSubmit={handleSubmit} className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg border-2 border-prim">
+              <h1 className="text-4xl font-bold mb-8">
+                <span className="text-black">Create</span> <span className="text-prim">Persona</span>
+              </h1>
+              <div className="space-y-5">
+                {[
+                  { name: "persona_name", placeholder: "e.g., Friendly AI" },
+                  { name: "sex", placeholder: "e.g., Male/Female/Other" },
+                  { name: "traits", placeholder: "e.g., Helpful, Witty" },
+                  { name: "tone", placeholder: "e.g., Professional, Casual" },
+                  { name: "purpose", placeholder: "e.g., AI tutor, Assistant" },
+                  { name: "response_type", placeholder: "e.g., Short, Detailed" },
+                  { name: "backstory", placeholder: "e.g., AI created in 2030 to help users" },
+                ].map(({ name, placeholder }) => (
+                  <div key={name}>
+                    <label className="block text-gray-700 font-medium">{name.replace("_", " ").toUpperCase()}</label>
+                    <input
+                      type="text"
+                      name={name}
+                      value={persona[name]}
+                      onChange={handleInputChange}
+                      placeholder={placeholder}
+                      required
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-prim"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex justify-between mt-6">
+                <button type="button" onClick={() => setShowForm(false)} className="px-6 py-3 border border-gray-500 text-gray-700 rounded-md font-medium hover:bg-gray-100 transition">
+                  Back
+                </button>
+                <button type="submit" className="px-6 py-3 bg-prim text-white rounded-md font-medium hover:bg-purple-700 transition">
+                  Save Persona
+                </button>
+              </div>
+            </form>
+          )}
+        </main>
+
+        {/* Footer */}
+        <footer className="py-4 bg-gray-900 text-white text-center w-full">
+          <p className="text-sm">© {currentYear} personAI. All rights reserved.</p>
+        </footer>
+      </div>
+    </>
   );
 }
