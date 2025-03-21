@@ -243,10 +243,23 @@ export default function Playground({
   const chatTileContent = useMemo(() => {
     if (voiceAssistant.audioTrack) {
       return (
+        <>
         <TranscriptionTile
           agentAudioTrack={voiceAssistant.audioTrack}
           accentColor={config.settings.theme_color}
         />
+        {config.settings.outputs.audio && (
+          // <PlaygroundTile
+          //   title="Audio"
+          //   className="w-full h-fit grow"
+          //   childrenClassName="justify-center"
+          // >
+          <>
+            {audioTileContent}
+          </>
+          // </PlaygroundTile>
+        )}
+        </>
       );
     }
     return <></>;
@@ -542,15 +555,6 @@ export default function Playground({
           childrenClassName="h-full grow items-start"
         >
           {settingsTileContent}
-          {config.settings.outputs.audio && (
-            <PlaygroundTile
-              title="Audio"
-              className="w-full h-fit grow"
-              childrenClassName="justify-center"
-            >
-              {audioTileContent}
-            </PlaygroundTile>
-          )}
           <p>
             {room?.localParticipant?.identity}
           </p>
